@@ -1437,8 +1437,7 @@
 
       // create boxes
       var lcolor = this.get_color(histo.fLineColor);
-      material = new THREE.LineBasicMaterial({ color: new THREE.Color(lcolor) });
-      if (!JSROOT.browser.isIE) material.linewidth = histo.fLineWidth;
+      material = new THREE.LineBasicMaterial({ color: new THREE.Color(lcolor), linewidth: histo.fLineWidth });
 
       var line = JSROOT.Painter.createLineSegments(lpositions, material, uselineindx ? lindicies : null );
 
@@ -1932,8 +1931,7 @@
             console.error('SURF lines mismmatch nsegm', nsegments, ' lindx', lindx, 'difference', nsegments*6 - lindx);
 
          var lcolor = this.get_color(histo.fLineColor),
-             material = new THREE.LineBasicMaterial({ color: new THREE.Color(lcolor) });
-         if (!JSROOT.browser.isIE) material.linewidth = histo.fLineWidth;
+             material = new THREE.LineBasicMaterial({ color: new THREE.Color(lcolor), linewidth: histo.fLineWidth });
          var line = JSROOT.Painter.createLineSegments(lpos, material);
          line.painter = this;
          main.toplevel.add(line);
@@ -2091,10 +2089,8 @@
 
        // create lines
        var lcolor = this.get_color(this.GetObject().fLineColor),
-           material = new THREE.LineBasicMaterial({ color: new THREE.Color(lcolor) }),
+           material = new THREE.LineBasicMaterial({ color: new THREE.Color(lcolor), linewidth: this.GetObject().fLineWidth }),
            line = JSROOT.Painter.createLineSegments(lpos, material);
-
-       if (!JSROOT.browser.isIE) material.linewidth = this.GetObject().fLineWidth;
 
        line.painter = this;
        line.intersect_index = binindx;
@@ -3358,9 +3354,8 @@
 
          if (line && (iline>3) && (line.length == iline)) {
             var lcolor = this.get_color(this.GetObject().fLineColor),
-                material = new THREE.LineBasicMaterial({ color: new THREE.Color(lcolor) });
-            if (!JSROOT.browser.isIE) material.linewidth = this.GetObject().fLineWidth;
-            var linemesh = JSROOT.Painter.createLineSegments(line, material);
+                material = new THREE.LineBasicMaterial({ color: new THREE.Color(lcolor), linewidth: this.GetObject().fLineWidth }),
+                linemesh = JSROOT.Painter.createLineSegments(line, material);
             fp.toplevel.add(linemesh);
 
             linemesh.graph = graph;
@@ -3377,9 +3372,8 @@
 
          if (err) {
             var lcolor = this.get_color(this.GetObject().fLineColor),
-                material = new THREE.LineBasicMaterial({ color: new THREE.Color(lcolor) });
-            if (!JSROOT.browser.isIE) material.linewidth = this.GetObject().fLineWidth;
-            var errmesh = JSROOT.Painter.createLineSegments(err, material);
+                material = new THREE.LineBasicMaterial({ color: new THREE.Color(lcolor), linewidth: this.GetObject().fLineWidth }),
+                errmesh = JSROOT.Painter.createLineSegments(err, material);
             fp.toplevel.add(errmesh);
 
             errmesh.graph = graph;

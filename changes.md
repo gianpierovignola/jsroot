@@ -1,5 +1,10 @@
 # JSROOT changelog
 
+## Changes in v6
+
+1. Skip IE support
+
+
 ## Changes in dev
 1. Support RX and RY drawing option together with COL of TH2
 2. Add support of #overline, #underline, #strike into TLatex parsing (#196)

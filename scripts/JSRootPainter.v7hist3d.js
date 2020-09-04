@@ -1403,8 +1403,7 @@
 
       // create boxes
       var lcolor = this.v7EvalColor("line_color", "lightblue");
-      material = new THREE.LineBasicMaterial({ color: new THREE.Color(lcolor) });
-      if (!JSROOT.browser.isIE) material.linewidth = this.v7EvalAttr("line_width", 1);
+      material = new THREE.LineBasicMaterial({ color: new THREE.Color(lcolor), linewidth: this.v7EvalAttr("line_width", 1) });
 
       var line = JSROOT.Painter.createLineSegments(lpositions, material, uselineindx ? lindicies : null );
 
@@ -1587,7 +1586,7 @@
       else
          material = new THREE.LineBasicMaterial({ color: lcolor });
 
-      if (lwidth && (lwidth>1) && !JSROOT.browser.isIE) material.linewidth = parseInt(lwidth);
+      if ((lwidth !== undefined) && (lwidth > 1)) material.linewidth = parseInt(lwidth);
 
       return material;
    }
@@ -1954,9 +1953,8 @@
             console.error('SURF lines mismmatch nsegm', nsegments, ' lindx', lindx, 'difference', nsegments*6 - lindx);
 
          var lcolor = this.get_color(7),
-             material = new THREE.LineBasicMaterial({ color: new THREE.Color(lcolor) });
-         if (!JSROOT.browser.isIE) material.linewidth = this.v7EvalAttr("line_width", 1);
-         var line = JSROOT.Painter.createLineSegments(lpos, material);
+             material = new THREE.LineBasicMaterial({ color: new THREE.Color(lcolor), linewidth: this.v7EvalAttr("line_width", 1) }),
+             line = JSROOT.Painter.createLineSegments(lpos, material);
          line.painter = this;
          main.toplevel.add(line);
       }
@@ -2115,10 +2113,8 @@
 
        // create lines
        var lcolor = new THREE.Color(this.v7EvalColor("line_color", "lightblue")),
-           material = new THREE.LineBasicMaterial({ color: lcolor }),
+           material = new THREE.LineBasicMaterial({ color: lcolor, linewidth: this.v7EvalAttr("line_width", 1) }),
            line = JSROOT.Painter.createLineSegments(lpos, material);
-
-       if (!JSROOT.browser.isIE) material.linewidth = this.v7EvalAttr("line_width", 1);
 
        line.painter = this;
        line.intersect_index = binindx;
