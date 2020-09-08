@@ -1366,6 +1366,7 @@
       painter.DrawPave(opt);
 
       // drawing ready handled in special painters, if not exists - drawing is done
+      // !!! CAREFUL - must return painter while return value used by historgam painter!!!
       return painter.PaveDrawFunc ? painter : painter.DrawingReady();
    }
 
@@ -2040,10 +2041,14 @@
 
             // plot new objects on the same pad - will works only for simple drawings already loaded
             if (pp && (newfuncs.length > 0)) {
-               var prev_name = pp.has_canvas ? pp.CurrentPadName(pp.this_pad_name) : undefined;
-               for (var k=0;k<newfuncs.length;++k)
-                  JSROOT.draw(this.divid, newfuncs[k],"", function (painter) { painter.child_painter_id = pid; } )
-               pp.CurrentPadName(prev_name);
+               var arr = [], prev_name = pp.has_canvas ? pp.CurrentPadName(pp.this_pad_name) : undefined;
+               for (var k = 0; k < newfuncs.length; ++k)
+                  arr.push(JSROOT.draw_new(this.divid, newfuncs[k]));
+               Promise.all(arr).then(function(parr) {
+                  for (var k = 0; k < parr.length; ++k)
+                     if (parr[k]) parr[k].child_painter_id = pid;
+                  pp.CurrentPadName(prev_name);
+               });
             }
          }
 
@@ -2263,7 +2268,7 @@
          return statpainter.Enabled;
       }
 
-      JSROOT.draw(this.divid, stat, "onpad:" + this.pad_name);
+      JSROOT.new_draw(this.divid, stat, "onpad:" + this.pad_name);
 
       return true;
    }
@@ -2444,9 +2449,9 @@
       }
 
       if (do_draw)
-         return JSROOT.draw(this.divid, func, opt, this.DrawNextFunction.bind(this, indx+1, callback));
-
-      this.DrawNextFunction(indx+1, callback);
+         JSROOT.new_draw(this.divid, func, opt).then(this.DrawNextFunction.bind(this, indx+1, callback));
+      else
+         this.DrawNextFunction(indx+1, callback);
    }
 
    /** @summary Unzoom user range if any @private */
@@ -2996,7 +3001,7 @@
          var prev = this.CurrentPadName(this.pad_name);
          // CAUTION!!! This is very special place where return value of JSROOT.draw is allowed
          // while palette drawing is in same script. Normally callback should be used
-         pal_painter = JSROOT.draw(this.divid, pal, arg);
+         pal_painter = drawPave(this.divid, pal, arg);
          this.CurrentPadName(prev);
       } else {
          pal_painter.Enabled = true;
@@ -6552,7 +6557,7 @@
       // also used to provide tooltips
       if ((rindx > 0) && !this.options.nostack) hist.$baseh = hlst.arr[rindx - 1];
 
-      JSROOT.draw(this.divid, hist, hopt, this.DrawNextHisto.bind(this, indx, "callback"));
+      JSROOT.new_draw(this.divid, hist, hopt).then(this.DrawNextHisto.bind(this, indx, "callback"));
    }
 
    THStackPainter.prototype.DecodeOptions = function(opt) {
@@ -6730,10 +6735,6 @@
    }
 
    // =================================================================================
-
-   // kept for backward compatibility, will be removed in future JSROOT versions
-   JSROOT.Painter.drawLegend = drawPave;
-   JSROOT.Painter.drawPaveText = drawPave;
 
    JSROOT.Painter.drawPave = drawPave;
    JSROOT.Painter.produceLegend = produceLegend;

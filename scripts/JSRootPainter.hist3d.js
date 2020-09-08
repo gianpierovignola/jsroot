@@ -3054,7 +3054,7 @@
       painter.Redraw();
 
       var stats = painter.CreateStat(); // only when required
-      if (stats) JSROOT.draw(painter.divid, stats, "");
+      if (stats) JSROOT.new_draw(painter.divid, stats, "");
 
       painter.FillToolbar();
 
@@ -3429,13 +3429,13 @@
       if (!gr.fHistogram)
          gr.fHistogram = painter.CreateHistogram();
 
-      JSROOT.draw(divid, gr.fHistogram, "lego;axis", function(hpainter) {
+      return JSROOT.new_draw(divid, gr.fHistogram, "lego;axis")
+                  .then(function(hpainter) {
          painter.ownhisto = true;
          painter.SetDivId(divid);
          painter.Redraw();
+         return painter; // result of promise
       });
-
-      return painter;
    }
 
    // ===================================================================
