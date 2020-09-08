@@ -6615,10 +6615,17 @@
    }
 
 
-   JSROOT.draw_impl = function(divid, obj, opt, resolveFunc, rejectFunc, doing_redraw) {
+   JSROOT.isPromise = function(obj) {
+      return obj && (typeof obj == 'object') && (typeof obj.then == 'function');
+   }
+
+   JSROOT.draw_impl = function(divid, obj, opt, doing_redraw) {
+      return new Promise(function(resolveFunc, rejectFunc) {
 
       function completeDraw(painter) {
-         if (painter && (typeof painter == 'object') && (typeof painter.WhenReady == 'function'))
+         if (JSROOT.isPromise(painter)) {
+            painter.then(resolveFunc, rejectFunc);
+         } else if (painter && (typeof painter == 'object') && (typeof painter.WhenReady == 'function'))
             painter.WhenReady(resolveFunc, rejectFunc);
          else if (painter)
             resolveFunc(painter);
@@ -6679,7 +6686,7 @@
       if (!handle) return completeDraw(null);
 
       if (handle.draw_field && obj[handle.draw_field])
-         return JSROOT.draw_impl(divid, obj[handle.draw_field], opt, resolveFunc, rejectFunc);
+         return JSROOT.draw_impl(divid, obj[handle.draw_field], opt).then(resolveFunc, rejectFunc);
 
       if (!handle.func) {
          if (opt && (opt.indexOf("same")>=0)) {
@@ -6702,7 +6709,8 @@
          } else {
             painter = handle.func(divid, obj, opt);
 
-            if (painter && !painter.options) painter.options = { original: opt || "" };
+            if (!JSROOT.isPromise(painter) && painter && !painter.options)
+               painter.options = { original: opt || "" };
          }
 
          return completeDraw(painter);
@@ -6743,6 +6751,7 @@
 
          performDraw();
       });
+      }); // Promise
    }
 
 
