@@ -3,6 +3,10 @@
 ## Changes in v6
 
 1. Skip IE support
+2. Upgrade d3.js to v6.1.1, due to significant changes in API skip support of older versions
+3. Make havy use of Promise object
+4. Provide JSROOT.HttpRequest() function, which returns Promise instance
+5. JSROOT.draw/JSROOT.redraw also returns Promise, skip callback parameter
 
 
 ## Changes in dev
