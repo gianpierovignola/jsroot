@@ -6597,10 +6597,11 @@
                   painter.options = { original: opt || "" };
             }
 
-            return completeDraw(painter);
+            completeDraw(painter);
          }
 
-         if (typeof handle.func == 'function') return performDraw();
+         if (typeof handle.func == 'function')
+            return performDraw();
 
          var funcname = "", prereq = "";
          if (typeof handle.func == 'object') {
@@ -6623,6 +6624,8 @@
 
          if (!prereq.length)
             return completeDraw(null);
+
+         console.log('LOADING', prereq);
 
          JSROOT.AssertPrerequisites(prereq, function() {
             var func = JSROOT.findFunction(funcname);

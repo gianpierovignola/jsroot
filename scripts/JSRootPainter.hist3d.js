@@ -3058,7 +3058,7 @@
 
       painter.FillToolbar();
 
-      return painter.DrawingReady();
+      return painter.Promise(true);
    }
 
    // ===========================================================================================
