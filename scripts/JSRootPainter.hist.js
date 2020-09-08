@@ -6713,6 +6713,7 @@
       this.DrawNextHisto(0, null);
    }
 
+   /** @summary draw THStack object */
    function drawHStack(divid, stack, opt) {
       // paint the list of histograms
       // By default, histograms are shown stacked.
@@ -6723,13 +6724,13 @@
       painter.SetDivId(divid, -1); // it maybe no element to set divid
       painter.DecodeOptions(opt);
 
-      if (!stack.fHists || (stack.fHists.arr.length == 0))
-         return painter.DrawingReady();
+      if (!stack.fHists || !stack.fHists.arr)
+         return painter.Promise(true); // drawing not needed
 
       painter._assign_divid = true; // indicate that we have to assign divid once first histogram is drawn
       painter.startDrawStack(stack);
 
-      return painter;
+      return painter.Promise();
    }
 
    // =================================================================================
