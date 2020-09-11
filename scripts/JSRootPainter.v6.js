@@ -4054,9 +4054,7 @@
 
          if ((can3d !== 1) && (can3d !== 2)) return;
 
-         let sz2 = main.size_for_3d(2); // get size of DOM element as it will be embed
-
-         let sz = (can3d == 2) ? sz2 : main.size_for_3d(1);
+         let sz2 = main.size_for_3d(2); // get size and position of DOM element as it will be embed
 
          let canvas = main.renderer.domElement;
          main.Render3D(0); // WebGL clears buffers, therefore we should render scene and convert immediately
