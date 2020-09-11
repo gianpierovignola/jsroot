@@ -8,6 +8,8 @@
 4. Provide JSROOT.HttpRequest() function, which returns Promise instance
 5. JSROOT.draw/JSROOT.redraw also returns Promise, skip callback parameter
 6. JSROOT.OpenFile() returns Promise, if callback specified, old API will be working
+7. Instead of JSROOT.AssertPrerequisites use JSROOT.load which returns Promise, keep old for a while
+
 
 ## Changes in dev
 1. Support RX and RY drawing option together with COL of TH2
