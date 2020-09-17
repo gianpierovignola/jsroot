@@ -10,6 +10,7 @@
 6. JSROOT.OpenFile() returns Promise, if callback specified, old API will be working
 7. Instead of JSROOT.AssertPrerequisites use JSROOT.load which returns Promise, keep old for a while
 8. Upgrade three.js to r120, SoftwareRenderer is not there, webgl is the only solution for browser
+9. Deprecate bower package manager
 
 
 ## Changes in dev
