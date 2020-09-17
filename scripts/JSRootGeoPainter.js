@@ -228,7 +228,7 @@
 
    TGeoPainter.prototype = Object.create( JSROOT.TObjectPainter.prototype );
 
-   TGeoPainter.prototype.CreateToolbar = function(args) {
+   TGeoPainter.prototype.CreateToolbar = function() {
       if (this._toolbar || !this._webgl || this.ctrl.notoolbar) return;
       let painter = this;
       let buttonList = [{
@@ -411,7 +411,6 @@
    }
 
    TGeoPainter.prototype.ExitVRMode = function() {
-      let pthis = this;
       if (!this._vrDisplay.isPresenting) return;
       this._renderer.vr.enabled = false;
       this._dolly.remove(this._camera);
@@ -626,7 +625,7 @@
 
       let arg = {
             domatrix: true,
-            func: function(node) {
+            func: function(/*node*/) {
 
                let m2 = this.getmatrix();
 
@@ -1073,7 +1072,7 @@
                menu.add("Browse", itemname, function(arg) { this.ActivateInBrowser([arg], true); });
 
                if (menu.painter._hpainter)
-                  menu.add("Inspect", itemname, function(arg) { this._hpainter.display(itemname, "inspect"); });
+                  menu.add("Inspect", itemname, function(arg) { this._hpainter.display(arg, "inspect"); });
 
                if (obj.geo_name) {
                   menu.add("Hide", n, function(indx) {
