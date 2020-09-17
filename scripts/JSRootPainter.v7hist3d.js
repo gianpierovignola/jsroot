@@ -576,7 +576,7 @@
 
       let textMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 }),
           lineMaterial = new THREE.LineBasicMaterial({ color: 0x000000 }),
-          ticklen = textsize*0.5, text, tick, lbls = [], text_scale = 1,
+          ticklen = textsize*0.5, lbls = [], text_scale = 1,
           xticks = this.x_handle.CreateTicks(false, true),
           yticks = this.y_handle.CreateTicks(false, true),
           zticks = this.z_handle.CreateTicks(false, true);
@@ -982,7 +982,7 @@
             let text3d = new THREE.TextGeometry(zaxis.fTitle, { font: JSROOT.threejs_font_helvetiker_regular, size: textsize, height: 0, curveSegments: 5 });
             text3d.computeBoundingBox();
             let draw_width = text3d.boundingBox.max.x - text3d.boundingBox.min.x,
-                draw_height = text3d.boundingBox.max.y - text3d.boundingBox.min.y,
+                // draw_height = text3d.boundingBox.max.y - text3d.boundingBox.min.y,
                 posz = zaxis.TestBit(JSROOT.EAxisBits.kCenterTitle) ? (grmaxz + grminz - draw_width)/2 : grmaxz - draw_width;
 
             text3d.rotateZ(Math.PI/2);
@@ -1111,7 +1111,7 @@
 
       // if bin ID fit into 16 bit, use smaller arrays for intersect indexes
       let use16indx = (histo.getBin(i2, j2) < 0xFFFF),
-          levels = [ axis_zmin, axis_zmax ], palette = null, totalvertices = 0;
+          levels = [ axis_zmin, axis_zmax ], palette = null;
 
       // DRAW ALL CUBES
 
@@ -1155,8 +1155,6 @@
                   num2vertices += 12;
                }
             }
-
-         totalvertices += numvertices + num2vertices;
 
          let positions = new Float32Array(numvertices*3),
              normals = new Float32Array(numvertices*3),
@@ -1334,13 +1332,13 @@
 
       // DRAW LINE BOXES
 
-      let numlinevertices = 0, numsegments = 0, uselineindx = true, nskip = 0;
+      let numlinevertices = 0, numsegments = 0, uselineindx = true;
 
       zmax = axis_zmax; zmin = axis_zmin;
 
       for (i = i1; i < i2; i += di)
          for (j = j1; j < j2; j += dj) {
-            if (!GetBinContent(i,j,0)) { nskip++; continue; }
+            if (!GetBinContent(i,j,0)) continue;
 
             // calculate required buffer size for line segments
             numlinevertices += (reduced ? rvertices.length : vertices.length);
@@ -1421,7 +1419,7 @@
 
    // ===================================================================================
 
-   JSROOT.Painter.drawAxis3D = function(divid, axis, opt) {
+   JSROOT.Painter.drawAxis3D = function(divid, axis /*, opt */) {
 
       let painter = new JSROOT.TObjectPainter(axis);
 
@@ -1465,8 +1463,7 @@
       this.mode3d = true;
 
       let main = this.frame_painter(), // who makes axis drawing
-          is_main = this.is_main_painter(), // is main histogram
-          histo = this.GetHisto();
+          is_main = this.is_main_painter(); // is main histogram
 
       if (reason == "resize")  {
          if (is_main && main.Resize3D()) main.Render3D();
@@ -1507,8 +1504,7 @@
       this.mode3d = true;
 
       let main = this.frame_painter(), // who makes axis drawing
-          is_main = this.is_main_painter(), // is main histogram
-          histo = this.GetHisto();
+          is_main = this.is_main_painter(); // is main histogram
 
       if (reason == "resize") {
          if (is_main && main.Resize3D()) main.Render3D();
@@ -1595,7 +1591,6 @@
       // for contour plots one requires handle with full range
       let main = this.frame_painter(),
           handle = this.PrepareDraw({rounding: false, use3d: true, extra: 100, middle: 0.0 }),
-          histo = this.GetHisto(), // get levels
           palette = main.GetPalette(),
           layerz = 2*main.size_z3d, pnts = [];
 
@@ -1631,8 +1626,7 @@
           i, j, x1, y1, x2, y2, z11, z12, z21, z22,
           di = handle.stepi, dj = handle.stepj,
           numstepi = handle.i2 - handle.i1, numstepj = handle.j2 - handle.j1,
-          axis_zmin = main.grz.domain()[0],
-          axis_zmax = main.grz.domain()[1];
+          axis_zmin = main.grz.domain()[0];
 
       if (di > 1) {
          numstepi = Math.round(numstepi/di);
@@ -2132,7 +2126,6 @@
           let pos = Math.floor(intersect.index / 6);
           if ((pos<0) || (pos >= this.intersect_index.length)) return null;
           let p = this.painter,
-              histo = p.GetHisto(),
               main = p.frame_painter(),
               tip = p.Get3DToolTip(this.intersect_index[pos]),
               handle = this.handle,
@@ -2161,7 +2154,7 @@
           pmain = this.frame_painter(),
           axis_zmin = pmain.grz.domain()[0],
           axis_zmax = pmain.grz.domain()[1],
-          colindx, bin, i, len = histo.fBins.arr.length, cnt = 0, totalnfaces = 0,
+          colindx, bin, i, len = histo.fBins.arr.length,
           z0 = pmain.grz(axis_zmin), z1 = z0;
 
       // force recalculations of contours
@@ -2325,7 +2318,7 @@
          mesh.draw_z1 = z1;
          mesh.tip_color = 0x00FF00;
 
-         mesh.tooltip = function(intersects) {
+         mesh.tooltip = function(/*intersects*/) {
 
             let p = this.painter, main = p.frame_painter(),
                 bin = p.GetObject().fBins.arr[this.bins_index];
@@ -2346,9 +2339,6 @@
 
             return tip;
          };
-
-         totalnfaces += nfaces;
-         cnt++;
       }
    }
 
@@ -2474,11 +2464,11 @@
           print_entries = Math.floor(dostat / 10) % 10,
           print_mean = Math.floor(dostat / 100) % 10,
           print_rms = Math.floor(dostat / 1000) % 10,
-          print_under = Math.floor(dostat / 10000) % 10,
-          print_over = Math.floor(dostat / 100000) % 10,
+          // print_under = Math.floor(dostat / 10000) % 10,
+          // print_over = Math.floor(dostat / 100000) % 10,
           print_integral = Math.floor(dostat / 1000000) % 10;
-      //var print_skew = Math.floor(dostat / 10000000) % 10;
-      //var print_kurt = Math.floor(dostat / 100000000) % 10;
+          // var print_skew = Math.floor(dostat / 10000000) % 10;
+          // var print_kurt = Math.floor(dostat / 100000000) % 10;
 
       stat.ClearPave();
 
@@ -2556,7 +2546,6 @@
           i1 = handle.i1, i2 = handle.i2, di = handle.stepi,
           j1 = handle.j1, j2 = handle.j2, dj = handle.stepj,
           k1 = handle.k1, k2 = handle.k2, dk = handle.stepk,
-          name = this.GetTipName("<br/>"),
           i, j, k, bin_content;
 
       if ((i2<=i1) || (j2<=j1) || (k2<=k1)) return true;
@@ -2732,7 +2721,6 @@
           i1 = handle.i1, i2 = handle.i2, di = handle.stepi,
           j1 = handle.j1, j2 = handle.j2, dj = handle.stepj,
           k1 = handle.k1, k2 = handle.k2, dk = handle.stepk,
-          name = this.GetTipName("<br/>"),
           palette = null;
 
       if (use_colors) {
@@ -2924,7 +2912,6 @@
             if ((indx<0) || (indx >= this.bins.length)) return null;
 
             let p = this.painter,
-                histo = p.GetHisto(),
                 main = p.frame_painter(),
                 tip = p.Get3DToolTip(this.bins[indx]),
                 grx = main.grx(p.GetAxis("x").GetBinCoord(tip.ix-0.5)),
@@ -2965,8 +2952,7 @@
 
    JSROOT.v7.RH3Painter.prototype.Redraw = function(reason) {
 
-      let main = this.frame_painter(), // who makes axis and 3D drawing
-          histo = this.GetHisto();
+      let main = this.frame_painter(); // who makes axis and 3D drawing
 
       if (reason == "resize") {
          if (main.Resize3D()) main.Render3D();
