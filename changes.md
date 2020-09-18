@@ -15,7 +15,7 @@
    - Keep use of SVGRendered as backup solution
    - support r3d_gl, r3d_img, r3d_svg rendering options for Geo and histos
 9. Deprecate bower package manager
-10. Upgrade MathJax.js to version 3.1.1, major changes in functionality
+10. Upgrade MathJax.js to version 3.1.1, reliably works in browser and node.js!
 
 
 ## Changes in dev
