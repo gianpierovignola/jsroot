@@ -8,14 +8,16 @@
 4. Provide JSROOT.HttpRequest() function, which returns Promise instance
 5. JSROOT.draw/JSROOT.redraw also returns Promise, skip callback parameter
 6. JSROOT.OpenFile() returns Promise, if callback specified, old API will be working
-7. Instead of JSROOT.AssertPrerequisites use JSROOT.load which returns Promise, keep old for a while
-8. Upgrade three.js to r120:
+7. Upgrade three.js to r120:
    - SoftwareRenderer is not there,
    - WebGL used both for browser and node.js (via headless-gl)
    - Keep use of SVGRendered as backup solution
    - support r3d_gl, r3d_img, r3d_svg rendering options for Geo and histos
-9. Deprecate bower package manager
-10. Upgrade MathJax.js to version 3.1.1, reliably works in browser and node.js!
+8. Deprecate bower package manager
+9. Upgrade MathJax.js to version 3.1.1, reliably works in browser and node.js!
+10. Provide new code loader via JSROOT.require. It uses require.js when available or emulate behaviour
+    either with plain scripts loading or via node.js require(). Introducing clean dependencies in JSROOT code.
+    Deprecates old JSROOT.AssertPrerequisites function
 
 
 ## Changes in dev
