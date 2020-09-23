@@ -18,6 +18,7 @@
 10. Provide new code loader via JSROOT.require. It uses require.js when available or emulate behaviour
     either with plain scripts loading or via node.js require(). Introducing clean dependencies in JSROOT code.
     Deprecates old JSROOT.AssertPrerequisites function
+11. Use JS classes in many places of JSROOT
 
 
 ## Changes in dev
