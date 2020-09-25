@@ -5,9 +5,7 @@ Data can be read and displayed from binary and JSON ROOT files.
 JSROOT implements user interface for THttpServer class.
 
 
-<iframe width="700" height="400"
-        src="https://root.cern/js/latest/?nobrowser&file=../files/hsimple.root&item=hpxpy&opt=colz">
-</iframe>
+<iframe width="100%" height="650" src="_examples/selects.html" /></iframe>
 
 
 
