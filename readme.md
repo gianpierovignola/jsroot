@@ -5,7 +5,7 @@ Data can be read and displayed from binary and JSON ROOT files.
 JSROOT implements user interface for THttpServer class.
 
 
-<a href="http://www.facebook.com/sharer" target="_blank">Open page in new window</a>
+<a href="http://www.facebook.com/sharer" target="popup" onclick="window.open('http://www.facebook.com/sharer','name','width=600,height=400')">Open page in new window</a>
 
 
 
