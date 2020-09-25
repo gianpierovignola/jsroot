@@ -4,8 +4,8 @@ JavaScript ROOT provides interactive ROOT-like graphics in the web browsers.
 Data can be read and displayed from binary and JSON ROOT files.
 JSROOT implements user interface for THttpServer class.
 
-
-<iframe width="100%" height="650" src="_examples/selects.html" /></iframe>
+[](https://jsrootsoftwareandcomputing.000webhostapp.com/index.htm?file=/rootfile/ClassifierOutputBDT.root&item=canvas1;1&title=%22S&C%20JSROOT%22&optimize=0 ':include :type=iframe width=100% height=650px')
+<iframe width="100%" height="650" src="https://jsrootsoftwareandcomputing.000webhostapp.com/index.htm?file=/rootfile/ClassifierOutputBDT.root&item=canvas1;1&title=%22S&C%20JSROOT%22&optimize=0" /></iframe>
 
 
 
