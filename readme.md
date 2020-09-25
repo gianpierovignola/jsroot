@@ -5,9 +5,9 @@ Data can be read and displayed from binary and JSON ROOT files.
 JSROOT implements user interface for THttpServer class.
 
 
+<a href="http://www.facebook.com/sharer" target="_blank">Open page in new window</a>
 
 
-<a href="http://www.facebook.com/sharer" onclick="window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" >Share this</a>
 
 
 <a href="https://root.cern/js/latest/?nobrowser&file=../files/hsimple.root&item=ntuple;1&opt=px:py::pz%3E4"><img src="https://root.cern/js/files/img/ttree.png" align="left" hspace="10" vspace="6" alt="TTree::Draw()" title="2-dimensional TTree::Draw with cut options"></a>
