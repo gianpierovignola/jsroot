@@ -21,9 +21,9 @@ JSROOT implements user interface for THttpServer class.
 <br/>
 <br/>
 
-<div align="center">
+<p align="center">
   <a href="https://root.cern/js/latest/?nobrowser&file=../files/hsimple.root&item=ntuple;1&opt=px:py::pz%3E4"><img src="https://root.cern/js/files/img/ttree.png" align="left" hspace="10" vspace="6" alt="TTree::Draw()" title="2-dimensional TTree::Draw with cut options"></a>
-</div>
+</p>
 
 <br/>
 
