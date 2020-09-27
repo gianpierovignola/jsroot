@@ -21,6 +21,10 @@ JSROOT implements user interface for THttpServer class.
 <br/>
 <br/>
 
+<div align="center">
+  my text here.
+</div>
+
 
 ## Links
 
